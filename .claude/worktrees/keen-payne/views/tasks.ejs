@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Todo List</title>
+</head>
+<body>
+
+    <h1>Todo List</h1>
+
+    <!-- Navigation menu with links -->
+    <a href="/">All Tasks</a> | <a href="/completed-tasks">Completed Tasks</a>
+
+    <hr>
+
+    <!-- Display the list of tasks, or an error message if no tasks exist -->
+    <% if (tasks.length === 0) { %>
+        <p>No tasks to display.</p>
+    <% } else { %>
+        <!-- Use a basic for loop to display each task (no forEach/map) -->
+        <% for (let i = 0; i < tasks.length; i++) { %>
+            <div style="margin: 10px 0; padding: 10px; border: 1px solid #ccc;">
+
+                <!-- Show the task id -->
+                Id: <%= tasks[i].id %>
+
+                <!-- Show the task name; strikethrough if completed -->
+                <% if (tasks[i].isCompleted) { %>
+                    <span style="text-decoration: line-through;"><%= tasks[i].name %></span>
+                <% } else { %>
+                    <span><%= tasks[i].name %></span>
+                <% } %>
+
+                <!-- Form with checkbox and Update button -->
+                <form action="/update-task/<%= tasks[i].id %>" method="POST" style="display: inline;">
+                    <input type="checkbox" name="isCompleted" <% if (tasks[i].isCompleted) { %> checked <% } %>>
+                    <button type="submit">Update</button>
+                </form>
+
+            </div>
+        <% } %>
+    <% } %>
+
+    <hr>
+
+    <!-- Add a Task form -->
+    <h2>Add a Task</h2>
+    <form action="/add-task" method="POST">
+        <label>Task Name:</label>
+        <input type="text" name="taskName" required>
+        <button type="submit">Add Task</button>
+    </form>
+
+</body>
+</html>
