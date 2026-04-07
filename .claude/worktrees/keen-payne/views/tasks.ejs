@@ -3,37 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <title>Todo List</title>
+    <style>
+        /* Keep the page narrow and centered */
+        body {
+            font-family: sans-serif;
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Each task row: use flexbox to space out id, name, and form */
+        .task-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        /* Task id takes fixed width */
+        .task-id {
+            width: 50px;
+        }
+
+        /* Task name grows to fill the middle */
+        .task-name {
+            flex: 1;
+            text-align: center;
+        }
+
+        /* Strikethrough style for completed tasks */
+        .completed {
+            text-decoration: line-through;
+        }
+
+        /* Update form stays on the right */
+        .task-form {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* Add task section with a border */
+        .add-task-section {
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-top: 10px;
+        }
+
+        /* Add task form layout */
+        .add-task-form {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+    </style>
 </head>
 <body>
 
     <h1>Todo List</h1>
 
-    <!-- Navigation menu with links -->
-    <a href="/">All Tasks</a> | <a href="/completed-tasks">Completed Tasks</a>
+    <!-- Navigation menu -->
+    <div>
+        <a href="/">All Tasks</a> | <a href="/completed-tasks">Completed Tasks</a>
+    </div>
 
-    <hr>
+    <br>
 
-    <!-- Display the list of tasks, or an error message if no tasks exist -->
+    <!-- Display tasks or error message -->
     <% if (tasks.length === 0) { %>
         <p>No tasks to display.</p>
     <% } else { %>
-        <!-- Use a basic for loop to display each task (no forEach/map) -->
         <% for (let i = 0; i < tasks.length; i++) { %>
-            <div style="margin: 10px 0; padding: 10px; border: 1px solid #ccc;">
+            <div class="task-row">
 
-                <!-- Show the task id -->
-                Id: <%= tasks[i].id %>
+                <!-- Task id -->
+                <div class="task-id">Id: <%= tasks[i].id %></div>
 
-                <!-- Show the task name; strikethrough if completed -->
-                <% if (tasks[i].isCompleted) { %>
-                    <span style="text-decoration: line-through;"><%= tasks[i].name %></span>
-                <% } else { %>
-                    <span><%= tasks[i].name %></span>
-                <% } %>
+                <!-- Task name with strikethrough if completed -->
+                <div class="task-name">
+                    <% if (tasks[i].isCompleted) { %>
+                        <span class="completed"><%= tasks[i].name %></span>
+                    <% } else { %>
+                        <span><%= tasks[i].name %></span>
+                    <% } %>
+                </div>
 
-                <!-- Form with checkbox and Update button -->
-                <form action="/update-task/<%= tasks[i].id %>" method="POST" style="display: inline;">
-                    <input type="checkbox" name="isCompleted" <% if (tasks[i].isCompleted) { %> checked <% } %>>
+                <!-- Checkbox and Update button -->
+                <form action="/update-task/<%= tasks[i].id %>" method="POST" class="task-form">
+                    <input type="checkbox" name="home_check_box" <% if (tasks[i].isCompleted) { %> checked <% } %>>
                     <button type="submit">Update</button>
                 </form>
 
@@ -41,15 +100,15 @@
         <% } %>
     <% } %>
 
-    <hr>
-
-    <!-- Add a Task form -->
+    <!-- Add a Task section -->
     <h2>Add a Task</h2>
-    <form action="/add-task" method="POST">
-        <label>Task Name:</label>
-        <input type="text" name="taskName" required>
-        <button type="submit">Add Task</button>
-    </form>
+    <div class="add-task-section">
+        <form action="/add-task" method="POST" class="add-task-form">
+            <label>Task Name:</label>
+            <input type="text" name="home_add_task" required>
+            <button type="submit">Add Task</button>
+        </form>
+    </div>
 
 </body>
 </html>

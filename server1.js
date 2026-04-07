@@ -40,8 +40,10 @@ app.post('/update-task/:id', (req, res) => {
     res.redirect('/');
 });
 
-
-app.post('/completed-tasks', (req, res) => {
+// different app.get vs app.post
+// app.get is for when the user clicks a link or types a URL in the browser
+// app.post is for when the user submits a form (like adding a task or updating a task)
+app.get('/completed-tasks',  (req, res) => {
     let completed_tasks = [];
     for (let i = 0; i < TASKS.length; i++) {
         if (TASKS[i].isCompleted) {
@@ -49,7 +51,9 @@ app.post('/completed-tasks', (req, res) => {
         }
     }
     res.render('completed_tasks.ejs', { tasks: completed_tasks });
+    // res.send("This is the completed tasks page");
 });
+
 
 
 

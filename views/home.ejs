@@ -2,49 +2,86 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=content-width, initial-scale=1.0">
     <title>Home</title>
     <style> 
 
-        span {
-            text-decoration: line-through;
+        
 
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 500px;
+            border: 1px solid #ccc;
+            /* background-color: #741111; */
+
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .nav_links {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .task_card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .completed {
+            text-decoration: line-through;
+        }
+
+        .add_task {
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
     <h1>Todo List</h1>
-    <a href="/all-tasks">All Tasks</a>
-    |
-    <a href="/completed-tasks">Completed Tasks</a>
+    <div class="nav_links">
+        <a href="/all-tasks">All Tasks</a>
+        |
+        <a href="/completed-tasks">Completed Tasks</a>
+    </div>
 
     <% if (tasks.length > 0) { %>
+        
         <% for (let i = 0; i < tasks.length; i++) {  %>
-            ID: <%= tasks[i].id %>
-            
-            <!-- cross out completed tasks -->
-            <% if (tasks[i].isCompleted) { %>
-                <span><%= tasks[i].name %></span>
-            <% } else { %>
-                <%= tasks[i].name %>
-            <% } %>
-            <!--  -->
+            <div class="task_card">
+                ID: <%= tasks[i].id %>
+                
+                <!-- cross out completed tasks -->
+                <% if (tasks[i].isCompleted) { %>
+                    <p class="completed"><%= tasks[i].name %></p>
+                <% } else { %>
+                    <p><%= tasks[i].name %></p>
+                <% } %>
+                <!--  -->
 
-            <form method="POST" action="/update-task/<%= tasks[i].id %>">
-                <input type="checkbox" name="home_check_box" <% if (tasks[i].isCompleted) { %> checked <% } %>>
-                <button type="submit">Update</button>
-            </form>
+                <form method="POST" action="/update-task/<%= tasks[i].id %>">
+                    <input type="checkbox" name="home_check_box" <% if (tasks[i].isCompleted) { %> checked <% } %>>
+                    <button type="submit">Update</button>
+                </form>
+            </div>
         
         <% } %>
+       
 
     <% } %>
       
 
     <h1>Add a Task</h1>
-    <form method="POST" action="/add-task">
-        <label for="">Task Name: </label>
-        <input type="text" name="home_add_task">
-        <button type="submit">Add Task</button>
-    </form>
+    <div class="add_task">
+        <form method="POST" action="/add-task">
+            <label for="">Task Name: </label>
+            <input type="text" name="home_add_task">
+            <button type="submit">Add Task</button>
+        </form>
+    </div>
 </body>
 </html>
