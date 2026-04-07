@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Tasks</title>
+    <style>
+        span {
+            text-decoration: line-through;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>Complete Tasks</h1>
+
+    <a href="/all-tasks">All Tasks</a>
+
+    <% if (tasks.length > 0) { %>
+        <% for (let i = 0; i < tasks.length; i++) {  %>
+            ID: <%= tasks[i].id %>
+            
+            <!-- cross out completed tasks -->
+            <% if (tasks[i].isCompleted) { %>
+                <span><%= tasks[i].name %></span>
+            <% } else { %>
+                <%= tasks[i].name %>
+            <% } %>
+            <!--  -->
+
+            <form method="POST" action="/update-task/<%= tasks[i].id %>">
+                <input type="checkbox" name="home_check_box" <% if (tasks[i].isCompleted) { %> checked <% } %>>
+                <button type="submit">Update</button>
+            </form>
+        
+        <% } %>
+</body>
+</html>
