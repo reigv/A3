@@ -53,12 +53,15 @@
         
         <% for (let i = 0; i < tasks.length; i++) {  %>
             <div class="task_card">
-                ID: <%= tasks[i].id %>
+                <!-- ID: <%= tasks[i].id %> -->
                 
                 <!-- cross out completed tasks -->
                 <% if (tasks[i].isCompleted) { %>
-                    <p class="completed"><%= tasks[i].name %></p>
+                    <p class="completed">ID: <%= tasks[i].id %></p>
+                    <p class="completed"><%= tasks[i].name %>
+                    </p>
                 <% } else { %>
+                    <p>ID: <%= tasks[i].id %></p>
                     <p><%= tasks[i].name %></p>
                 <% } %>
                 <!--  -->

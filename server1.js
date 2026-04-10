@@ -1,5 +1,5 @@
 const express = require('express');
-const { parse } = require('node:path');
+
 const app = express();
 const port = 3300;
 
@@ -10,11 +10,28 @@ let TASKS = [];
 
 app.get('/', (req, res) => {
     res.render('home.ejs', { tasks: TASKS });
+    console.log("Accessed home page with " + TASKS.length + " tasks");
 });
 
 app.post('/add-task', (req, res) => {
     const task_from_form = req.body.home_add_task;
 
+    // condition -- not empty string
+    if (task_from_form === undefined || task_from_form === "") {
+        console.log("Task cannot be empty");
+        res.redirect('/');
+        return;
+    }
+
+    //also check for duplicate task name
+    for (let i = 0; i < TASKS.length; i++) {
+        if (TASKS[i].name === task_from_form) {
+            console.log("Task already exists: " + task_from_form);
+            res.redirect('/');
+            return;
+        }
+    }
+    
     // add info to the task
     const new_task = {
         id: TASKS.length, // keep stack on top of each other
@@ -23,10 +40,14 @@ app.post('/add-task', (req, res) => {
     }
 
     TASKS.push(new_task);
+    console.log("Added task: " + task_from_form);
     res.redirect('/');
 });
 
 app.post('/update-task/:id', (req, res) => {
+
+    // this approach only lets us update isCompleted once 
+    // if multiple check
     const id = parseInt(req.params.id);
     // get check box value from form
     const is_checked_box = req.body.home_check_box  === 'on'; // check box value is "on" when checked, undefined when unchecked
@@ -37,6 +58,7 @@ app.post('/update-task/:id', (req, res) => {
             break; 
         }
     }
+    console.log("Updated task with id " + id + " to isCompleted: " + is_checked_box);
     res.redirect('/');
 });
 
@@ -51,6 +73,7 @@ app.get('/completed-tasks',  (req, res) => {
         }
     }
     res.render('completed_tasks.ejs', { tasks: completed_tasks });
+    console.log("Accessed completed tasks page with " + completed_tasks.length + " completed tasks");
     // res.send("This is the completed tasks page");
 });
 
