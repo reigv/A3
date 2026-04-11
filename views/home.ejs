@@ -58,8 +58,7 @@
                 <!-- cross out completed tasks -->
                 <% if (tasks[i].isCompleted) { %>
                     <p class="completed">ID: <%= tasks[i].id %></p>
-                    <p class="completed"><%= tasks[i].name %>
-                    </p>
+                    <p class="completed"><%= tasks[i].name %></p>
                 <% } else { %>
                     <p>ID: <%= tasks[i].id %></p>
                     <p><%= tasks[i].name %></p>
